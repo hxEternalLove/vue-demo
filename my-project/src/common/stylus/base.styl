@@ -2,6 +2,48 @@ body, html
   line-height: 1
   font-size: 200
   font-family: 'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', Arial, Helvetica, sans-serif
+/**
+语法：display：none | inline | block | list-item | inline-block | table | inline-table | table-caption | table-cell | table-row | table-row-group | table-column | table-column-group | table-footer-group | table-header-group | run-in | box | inline-box | flexbox | inline-flexbox | flex | inline-flex
+
+　　none：隐藏元素并脱离文档流，与visibility属性的hidden值不同，其不为被隐藏的对象保留其物理空间
+
+　　inline：指定对象为内联元素；不支持设置宽、高样式；宽度取决于内容；非独占一行显示
+
+　　block：指定对象为块元素；不设置宽度时，宽度为父元素宽度；独占一行显示；支持设置宽、高样式
+
+　　inline-block：指定对象为内联块元素；宽度取决于内容；非独占一行显示；支持设置宽、高样式
+
+　　list-item：指定对象为列表项目；不设置宽度时，宽度撑满一行；支持设置宽、高样式；独占一行显示
+
+　　table：指定对象作为块元素级的表格，类同于html标签<table>
+
+　　inline-table：指定对象作为内联元素级的表格，类同于html标签<table>
+
+　　table-caption：指定对象作为表格标题，类同于html标签<caption>
+
+　　table-cell：指定对象作为表格单元格，类同于html标签<td>
+
+　　table-row：指定对象作为表格行，类同于html标签<tr>
+
+　　table-row-group：指定对象作为表格行组，类同于html标签<tbody>
+
+　　table-column：指定对象作为表格列，类同于html标签<col>
+
+　　table-column-group：指定对象作为表格列组显示，类同于html标签<colgroup>
+
+　　table-header-group：指定对象作为表格标题组，类同于html标签<thead>
+
+　　table-footer-group：指定对象作为表格脚注组，类同于html标签<tfoot>
+*/
+.clearfix
+  display inline-block
+  &:after
+    display block
+    content: "."
+    height 0
+    line-height: 0
+    clear both//图像的左侧和右侧均不允许出现浮动元素
+    visibility hidden//可以隐藏某个元素，但隐藏的元素仍需占用与未隐藏之前一样的空间。也就是说，该元素虽然被隐藏了，但仍然会影响布局。
 
 @media (-webkit-min-device-pixel-radio: 1.5),(min-device-pixel-radio: 1.5)
   .border-1px
