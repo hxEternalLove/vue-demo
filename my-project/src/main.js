@@ -5,6 +5,8 @@ import App from './App'
 import router from './router'
 import VueResource from 'vue-resource'
 import "./common/stylus/index.styl"
+import animate from 'animate.css'
+Vue.use(animate);
 Vue.use(VueResource);
 Vue.config.productionTip = false
 
