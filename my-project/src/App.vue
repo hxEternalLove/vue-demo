@@ -21,7 +21,8 @@
 
 <script type="text/ecmascript-6">
 
-import header from "./components/header/header.vue";
+// import header from "./components/header/header.1.vue";// transition 动画
+import header from "./components/header/header.vue";// animated 动画
 export default {
   name: 'App',
   data() {

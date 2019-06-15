@@ -29,8 +29,7 @@
     <div class="background">
       <img :src="seller.avatar" width="100%" height="100%" alt="头像">
     </div>
-      <transition name="fade" 
-      :duration="{enter:5000,leave:5000}" enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+      <transition name="fade">
         <div v-show="detailShow" class="detail">
           <div class="detail-wrapper clearfix">
             <div class="detail-main">
@@ -224,6 +223,10 @@
       overflow auto
       background rgba(7,17,27,0.8)
       backdrop-filter blur(10px)
+      &.fade-enter-active, &.fade-leave-active
+        transition: opacity .5s
+      &.fade-enter, &.fade-leave-to
+        opacity: 0
       .detail-wrapper
         min-height 100%
         width 100%
