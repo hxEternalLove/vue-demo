@@ -6,6 +6,9 @@ import router from './router'
 import VueResource from 'vue-resource'
 import "./common/stylus/index.styl"
 import animate from 'animate.css'
+import iView from 'iview';
+import 'iview/dist/styles/iview.css';
+Vue.use(iView);
 Vue.use(animate);
 Vue.use(VueResource);
 Vue.config.productionTip = false
