@@ -1,21 +1,19 @@
 <template>
   <div id="app">
-    <!-- <img src="./assets/logo.png"> -->
-    <!-- <router-view/> -->
     <v-header :seller="seller"></v-header>
 
     <div class="tab border-1px">
-      <div class="tab-item">
+      <div class="tab-item" >
         <router-link class="router-item" to="/goods">商品</router-link>
       </div>
-      <div class="tab-item">
+      <div class="tab-item" >
         <router-link class="router-item" to="/ratings">评论</router-link>
       </div>
-      <div class="tab-item">
+      <div class="tab-item" >
         <router-link class="router-item" to="/seller">商家</router-link>
       </div>
     </div>
-    <router-view></router-view>
+    <router-view :seller="seller"></router-view>
   </div>
 </template>
 
@@ -37,7 +35,10 @@ export default {
         console.log("res=", res.body);
         res = res.body;
         this.seller = res.seller;
+        // this.$router.push({path:"/goods", query: this.seller})// 路由传值
       })
+  },
+  methods: {
   },
   components: {
     "v-header": header
