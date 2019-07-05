@@ -35,18 +35,24 @@
                   <span class="now">￥{{food.price}}</span>
                   <span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
                 </div>
+                <div class="cartcontrol-wrapper">
+                  <cartcontrol :food="food"></cartcontrol>
+                </div>
               </div>
             </li>
           </ul>
         </li>
       </ul>
     </Scroll>
-    <shopcart :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"/>
+    <shopcart ref="shopcart" :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"/>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 import shopcart from '../shopcart/shopcart'
+import cartcontrol from '../cartcontrol/cartcontrol'
+import Vue from 'vue';
+var eventHub = new Vue()
 export default {
   props: {
     seller: {
@@ -72,9 +78,23 @@ export default {
         }
       }
       return 0;
+    },
+    selectFoods(){
+      let foods = [];
+      this.goods.forEach((good) => {
+        good.foods.forEach((food)=>{
+          if (food.count) {
+            foods.push(food);
+          }
+        })
+      })
+      return foods;
     }
   },
   created() {
+    eventHub.$on('cart.add',(event)=>{
+      this._drop(event);
+    })
     this.classMap = ["decrease", "discount", "guarantee", "invoice", "special"];
     this.$http.get("static/data.json").then(res => {
       // console.log("res=", res.body);
@@ -135,10 +155,14 @@ export default {
         meHeight += item.scrollHeight;//clientHeight;
         this.menuListHeight.push(meHeight);
       }
+    },
+    _drop(event){
+      this.refs.shopcart.drop(event)
     }
   },
   components: {
-    shopcart
+    shopcart,
+    cartcontrol
   }
 };
 </script>
@@ -146,7 +170,7 @@ export default {
 <style lang="stylus" rel="stylesheet/stylus" scoped>
 @import '../../common/stylus/mixin.styl';
 
-.goods {
+.goods
   display: flex;
   position: absolute;
   top: 190px;
@@ -162,73 +186,50 @@ export default {
   flex　　是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选。
   align-self　　允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性。默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch。
   */
-  .menu-wrapper {
+  .menu-wrapper
     flex: 0 0 80px;
     width: 80px;
     background: #f3f5f7;
-
-    .menu-item {
+    .menu-item
       display: table;
       height: 54px;
       width: 80px;
       line-height: 14px;
       padding: 0 12px;
-
-      &.current {
+      &.current
         position: relative;
         z-index: 10;
         margin-top: -1px;
         background: #ffffff;
         font-weight: 700;
-
-        .text {
+        .text
           border-none();
-        }
-      }
-
-      .icon {
+      .icon
         display: inline-block;
         width: 12px;
         height: 12px;
         margin-right: 2px;
         background-size: 12px 12px;
         background-repeat: no-repeat;
-
-        &.decrease {
-          bg-image('../../../resource/img/decrease_3');
-        }
-
-        &.discount {
+        &.decrease
+          bg-image('../../../resource/img/decrease_3')
+        &.discount
           bg-image('../../../resource/img/discount_3');
-        }
-
-        &.guarantee {
+        &.guarantee
           bg-image('../../../resource/img/guarantee_3');
-        }
-
-        &.invoice {
+        &.invoice
           bg-image('../../../resource/img/invoice_3');
-        }
-
-        &.special {
+        &.special
           bg-image('../../../resource/img/special_3');
-        }
-      }
-
-      .text {
+      .text
         display: table-cell;
         width: 56px;
         vertical-align: middle;
         border-1px(rgba(7, 17, 27, 0.1));
         font-size: 12px;
-      }
-    }
-  }
-
-  .foods-wrapper {
+  .foods-wrapper
     flex: 1;
-
-    .title {
+    .title
       padding-left: 14px;
       height: 26px;
       line-height: 26px;
@@ -236,70 +237,48 @@ export default {
       font-size: 12px;
       color: rgb(147, 153, 159);
       background: #f3f5f7;
-    }
-
-    .food-item {
+    .food-item
       display: flex;
       margin: 18px;
       padding-bottom: 18px;
       border-1px(rgba(7, 17, 27, 0.1));
-
-      &:last-child {
+      &:last-child
         border-none();
         padding-bottom: 0x;
-      }
-
-      .icon {
+      .icon
         flex: 0 0 57px;
         margin-right: 10px;
-      }
-
-      .content {
+      .content
         flex: 1;
-
-        .name {
+        .name
           margin: 2px 0 8px 0;
           height: 14px;
           line-height: 14px;
           font-size: 14px;
           color: rgb(7, 17, 27);
-        }
-
-        .desc, .extra {
+        .desc, .extra
           line-height: 10px;
           font-size: 10px;
           color: rgb(147, 153, 159);
-        }
-
-        .desc {
+        .desc
           line-height: 12px;
           margin-bottom: 8px;
-        }
-
-        .extra {
-          .count {
+        .extra
+          .count
             margin-right: 12px;
-          }
-        }
-
-        .price {
+        .price
           font-weight: 700;
           line-height: 24px;
-
-          .now {
+          .now
             margin-right: 8px;
             font-size: 14px;
             color: rgb(240, 20, 20);
-          }
-
-          .old {
+          .old
             text-decoration: line-through;
             font-size: 10px;
             color: rgb(147, 153, 159);
-          }
-        }
-      }
-    }
-  }
-}
+        .cartcontrol-wrapper
+          position absolute
+          right 0
+          bottom 12px
 </style>

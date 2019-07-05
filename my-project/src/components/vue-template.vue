@@ -12,5 +12,8 @@ export default {
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-
+/*
+选中代码，按下Tab（右移）
+选中代码，按下Tab＋shift（左移）
+*/
 </style>

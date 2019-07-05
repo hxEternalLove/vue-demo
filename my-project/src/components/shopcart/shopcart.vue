@@ -15,7 +15,13 @@
         <div class="pay" :class="payClass">{{payDesc}}</div>
       </div>
     </div>
-    我是 购物车
+    <div class="ball-container">
+      <transition-group name="drop">
+        <div v-for="(ball,index) in balls" v-bind:key="index" v-show="ball.show" class="ball">
+          <div class="inner"></div>
+        </div>
+      </transition-group>
+    </div>
   </div>
 </template> 
 
@@ -41,6 +47,27 @@ export default {
     minPrice:{
       type: Number,
       default: 0
+    }
+  },
+  data(){
+    return{
+      balls:[
+        {
+          show:false
+        },
+        {
+          show:false
+        },
+        {
+          show:false
+        },
+        {
+          show:false
+        },
+        {
+          show:false
+        }
+      ]
     }
   },
   computed: {
@@ -74,6 +101,11 @@ export default {
       } else {
         return 'enough';
       }
+    }
+  },
+  methods:{
+    drop(el){
+      console.log("el=",el);
     }
   }
 }
@@ -165,5 +197,18 @@ export default {
           &.enough
             background #00b43c
             color #ffffff
+    .ball-container
+      .ball
+        position fixed
+        left 32px
+        bottom 22px
+        z-index 200
+        .&drop-enter-active, &.drop-leave-active
+          transition all 0.4s
+          .inner
+            width 16px
+            height 16px
+            border-radius 50%
+            background rgb(0, 160, 220)
 
 </style>
