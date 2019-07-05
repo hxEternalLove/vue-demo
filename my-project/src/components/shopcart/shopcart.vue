@@ -17,7 +17,7 @@
     </div>
     <div class="ball-container">
       <transition-group name="drop">
-        <div v-for="(ball,index) in balls" v-bind:key="index" v-show="ball.show" class="ball">
+        <div v-for="(ball,index) in balls" :key="index+'key'" v-show="ball.show" class="ball">
           <div class="inner"></div>
         </div>
       </transition-group>

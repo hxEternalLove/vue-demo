@@ -51,8 +51,6 @@
 <script type="text/ecmascript-6">
 import shopcart from '../shopcart/shopcart'
 import cartcontrol from '../cartcontrol/cartcontrol'
-import Vue from 'vue';
-var eventHub = new Vue()
 export default {
   props: {
     seller: {
@@ -92,9 +90,6 @@ export default {
     }
   },
   created() {
-    eventHub.$on('cart.add',(event)=>{
-      this._drop(event);
-    })
     this.classMap = ["decrease", "discount", "guarantee", "invoice", "special"];
     this.$http.get("static/data.json").then(res => {
       // console.log("res=", res.body);
@@ -106,6 +101,10 @@ export default {
           //DOM现在更新了
           this._initScroll();
           this._calculateHeight();
+          console.log(this.$refs.shopcart)
+          this.$root.eventHub.$on('cart.add',(target)=>{
+            this._drop(target);
+          })
         });
       }, 0);
     });
@@ -156,8 +155,8 @@ export default {
         this.menuListHeight.push(meHeight);
       }
     },
-    _drop(event){
-      this.refs.shopcart.drop(event)
+    _drop(target){
+      this.$refs.shopcart.drop(target)
     }
   },
   components: {
