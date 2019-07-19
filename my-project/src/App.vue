@@ -32,7 +32,7 @@ export default {
     this.$http
       .get("static/data.json")
       .then(res => {
-        console.log("res=", res.body);
+        // console.log("res=", res.body);
         res = res.body;
         this.seller = res.seller;
         // this.$router.push({path:"/goods", query: this.seller})// 路由传值

@@ -20,7 +20,7 @@
         <li v-for="item in goods" class="food-list food-list-hook" ref="foodList">
           <h1 class="title">{{item.name}}</h1>
           <ul>
-            <li v-for="food in item.foods" class="food-item border-1px">
+            <li @click="selectFood(food)" v-for="food in item.foods" class="food-item border-1px">
               <div class="icon">
                 <img width="57" height="57" :src="food.icon" alt="食物">
               </div>
@@ -45,12 +45,14 @@
       </ul>
     </Scroll>
     <shopcart ref="shopcart" :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"/>
+    <food :food="selectedFood" ref="food"></food>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 import shopcart from '../shopcart/shopcart'
 import cartcontrol from '../cartcontrol/cartcontrol'
+import food from '../food/food'
 export default {
   props: {
     seller: {
@@ -63,7 +65,8 @@ export default {
       listHeight: [],
       menuListHeight: [],
       scrollY: 0,
-      goodsHeight: 0
+      goodsHeight: 0,
+      selectedFood: {}
     };
   },
   computed: {
@@ -101,7 +104,7 @@ export default {
           //DOM现在更新了
           this._initScroll();
           this._calculateHeight();
-          console.log(this.$refs.shopcart)
+          // console.log(this.$refs.shopcart)
           this.$root.eventHub.$on('cart.add',(target)=>{
             this._drop(target);
           })
@@ -111,7 +114,7 @@ export default {
   },
   methods: {
     selectMenu(index) {
-      console.log(index,"\n",this.listHeight);
+      // console.log(index,"\n",this.listHeight);
       let foodscroll = this.$refs.foodsWrapper.$el.children[0];
       let scrollY = this.listHeight[index];
       foodscroll.scrollTop = scrollY;
@@ -119,7 +122,7 @@ export default {
     },
     _initScroll() {
       
-      console.log("query=", this.$route.query.deliveryPrice,"\nseller=",this.seller);
+      console.log("query=", this.$route.query,"\nseller=",this.seller);
       this.foodsScroll = this.$refs.foodsWrapper.$el.children[0];
       this.menuScroll = this.$refs.menuWrapper.$el.children[0];
     
@@ -156,12 +159,20 @@ export default {
       }
     },
     _drop(target){
-      this.$refs.shopcart.drop(target)
+      // 体验优化，异步执行动画
+      this.$nextTick(()=>{
+        this.$refs.shopcart.drop(target)
+      })
+    },
+    selectFood(food) {
+      this.selectedFood = food;
+      this.$refs.food.show();
     }
   },
   components: {
     shopcart,
-    cartcontrol
+    cartcontrol,
+    food
   }
 };
 </script>
