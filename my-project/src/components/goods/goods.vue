@@ -122,7 +122,7 @@ export default {
     },
     _initScroll() {
       
-      console.log("query=", this.$route.query,"\nseller=",this.seller);
+      // console.log("query=", this.$route.query,"\nseller=",this.seller);
       this.foodsScroll = this.$refs.foodsWrapper.$el.children[0];
       this.menuScroll = this.$refs.menuWrapper.$el.children[0];
     
