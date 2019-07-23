@@ -13,28 +13,37 @@
         <router-link class="router-item" to="/seller">商家</router-link>
       </div>
     </div>
-    <router-view :seller="seller"></router-view>
+    <keep-alive>
+      <router-view :seller="seller"></router-view>
+    </keep-alive>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-
+import {urlParse} from './common/js/util.js'
 // import header from "./components/header/header.1.vue";// transition 动画
 import header from "./components/header/header.vue";// animated 动画
 export default {
   name: 'App',
   data() {
     return {
-      seller: {}
+      seller: {
+        // 立即执行函数一般的写法是（()=>{})()这种
+        id: (() => {
+          let queryParam = urlParse();
+          return queryParam.id;
+        })()
+      },
     };
   },
   created() {
     this.$http
-      .get("static/data.json")
+      .get("static/data.json?id="+this.seller.id)
       .then(res => {
         // console.log("res=", res.body);
         res = res.body;
-        this.seller = res.seller;
+        this.seller = Object.assign({}, this.seller, res.seller);
+        // console.log(this.seller.id)
         // this.$router.push({path:"/goods", query: this.seller})// 路由传值
       })
   },

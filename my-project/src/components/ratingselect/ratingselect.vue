@@ -46,7 +46,7 @@ export default {
   data() {
     return {
       myselectType: this.selectType,//①创建props属性 selectType 的副本--myselectType
-      myonlyContent: this.myonlyContent
+      myonlyContent: this.onlyContent
     }
   },
   computed: {
