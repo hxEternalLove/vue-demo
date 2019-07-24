@@ -84,23 +84,20 @@ export default {
     }
   },
   created() {
-    this.$http.get("/static/data.json").then(res => {
+    this.$http.get("static/data.json").then(res => {
       // console.log("res=", res.body);
       res = res.body;
       this.ratings = res.ratings;
       // console.log(res);
-      setTimeout(() => {
-        //DOM还没更新
-        this.$nextTick(() => {
-          this.ratingsHeight = document.getElementById("ratings").clientHeight;
-          this.$root.eventHub.$on('on-selectType-change',(val)=>{
-            this.selectType=val;//④外层调用组件方注册变更方法，将组件内的数据变更，同步到组件外的数据状态中
-          }),
-          this.$root.eventHub.$on('on-onlyContent-change',(val)=>{
-            this.onlyContent=val;//④外层调用组件方注册变更方法，将组件内的数据变更，同步到组件外的数据状态中
-          })
+      this.$nextTick(() => {
+        this.ratingsHeight = document.getElementById("ratings").clientHeight;
+        this.$root.eventHub.$on('on-selectType-change',(val)=>{
+          this.selectType=val;//④外层调用组件方注册变更方法，将组件内的数据变更，同步到组件外的数据状态中
+        }),
+        this.$root.eventHub.$on('on-onlyContent-change',(val)=>{
+          this.onlyContent=val;//④外层调用组件方注册变更方法，将组件内的数据变更，同步到组件外的数据状态中
         })
-      },0);
+      })
     });
   },
   components: {
